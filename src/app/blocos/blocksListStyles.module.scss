@@ -1,0 +1,135 @@
+#container {
+    margin: 11.2rem 0;
+    padding: 0 5rem;
+    max-width: 130rem;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+
+    main {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+
+        .blockCard {
+            text-decoration: none;
+            color: var(--title-color);
+            border: 1px solid #EAEAEA;
+            border-radius: 1rem;
+            transition: 300ms;
+            cursor: pointer;
+            height: fit-content;
+
+
+            .blockBanner {
+                width: 100%;
+                height: auto;
+                max-height: 14.3rem;
+                border-radius: 1rem 1rem 0 0;
+                object-fit: contain;
+
+            }
+
+            .blockContent {
+                display: flex;
+                flex-direction: column;
+                gap: 1.6rem;
+                padding: 1.6rem;
+
+
+                h1 {
+                    font-size: 2rem;
+                    line-height: 140%;
+                    color: var(--title-color);
+                }
+
+                p {
+                    color: var(--title);
+                    opacity: 0.75;
+                    font-size: 1.6rem;
+                    line-height: 160%;
+                    font-weight: 400;
+                    max-height: 10rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .blockLocation {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 0.6rem;
+
+                    p {
+                        opacity: 0.8;
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+
+        .blockCard:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        #noBlocksContainer {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            flex-direction: column;
+            right: 0;
+            left: 0;
+            color: var(--title-color);
+            gap: 1rem;
+
+            animation: pulse infinite 5s;
+
+            img {
+                height: 25rem;
+                width: 25rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                margin-bottom: 10rem;
+
+                span {
+                    font-weight: 700;
+                    color: var(--purple);
+                }
+            }
+        }
+    }
+
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    
+}
+
+@media (min-width: 640px) {
+    #container {
+
+        main {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+@media (min-width: 952px) {
+    #container {
+        main {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+}

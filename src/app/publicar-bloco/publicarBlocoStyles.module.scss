@@ -1,0 +1,167 @@
+#container {
+    margin: 11.2rem 0;
+    padding: 0 5rem;
+    max-width: 90rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    form {
+        width: 100%;
+        display: flex;
+        gap: 3.2rem;
+        align-items: center;
+        flex-direction: column;
+
+        #blockTextInfos {
+            display: flex;
+            flex-direction: column;
+            gap: 3.2rem;
+            width: 100%;
+
+            .input {
+                
+                width: 100%;
+                height: 4.8rem;
+                background-color: var(--secondary-background-color);
+                border-radius: 0.5rem;
+                display: flex;
+                align-items: center;
+                padding: 1.4rem;
+                color: var(--text-color);
+                border: 1px solid #EAEAEA;
+
+                
+                input {
+                    background: none;
+                    border: none;
+                    width: 100%;
+                    padding: 1.2rem;
+                    outline: none;
+                    font-size: 1.6rem;
+                    color: var(--text-color);
+                }
+
+                img {
+                    height: 2.4rem;
+                    width: 2.4rem;
+                }
+            }
+
+            .input:focus-within {
+                outline: auto;
+            }
+
+            #locationSelect {
+                select {
+                    border: none;
+                    background: none;
+                    width: 100%;
+                    outline: none;
+                    color: var(--text-color);
+                    padding: 1rem;
+                }
+            }
+        }
+
+        #descriptionTextArea {
+            width: 100%;
+            min-height: 4.8rem;
+            background-color: var(--secondary-background-color);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            padding: 1.4rem;
+            color: var(--text-color);
+            border: 1px solid #EAEAEA;
+            resize: none;
+            overflow: hidden;
+
+        }
+
+        #blockImageContainer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--secondary-background-color);
+            border-radius: 5px;
+            height: 29.2rem;
+            border: 1px solid #EAEAEA;
+            cursor: pointer;
+            
+            p {
+                font-weight: 700;
+                color: var(--title-color);
+                font-size: 1.6rem;
+                max-width: 80%;
+                text-align: center;
+            }
+
+            img {
+                height: 18.3rem;
+                width: 18.3rem;
+            }
+
+            input {
+                display: none;
+            }
+
+            #imagePreview {
+                width: 90%;
+                height: 80%;
+                resize: none;
+                object-fit: scale-down;
+            }
+
+            #removeImageButton {
+                background: none;
+                border: 0;
+                color: var(--red);
+                margin-top: 1rem;
+                transition: 300ms;
+            }
+            #removeImageButton:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        #blockLocationContainer {
+            width: 100%;
+            border: 1px solid #EAEAEA;
+            height: 42.4rem;
+            border-radius: 5px;
+            background-color: var(--secondary-background-color);
+
+        }
+
+        #submitBlockButton {
+            background-color: var(--purple);
+            border: 0;
+            border-radius: 10px;
+            padding: 12px 14.3rem;
+            border: 1px solid #EAEAEA;
+            height: fit-content;
+            width: fit-content;
+
+            font-weight: 700;
+            color: var(--white);
+            transition: 300ms;
+        }
+
+        #submitBlockButton:hover {
+            transform: scale(1.1);
+            box-shadow: 4px 2px 4px rgba(0, 0, 0, 0.25);
+        }
+    }
+}
+
+@media (min-width: 768px) { 
+    #container {
+        form {
+            #blockTextInfos {
+                flex-direction: row;
+            }
+        }
+    }
+}
