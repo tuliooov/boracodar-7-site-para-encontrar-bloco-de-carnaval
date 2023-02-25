@@ -5,6 +5,8 @@ import prismaClient from '@/lib/prisma'
 
 import styles from './blocksListStyles.module.scss'
 
+export const dynamic='force-dynamic';
+
 async function getBlocks(searchParams: any) {
     return prismaClient.carnivalBlock.findMany({
         orderBy: {
