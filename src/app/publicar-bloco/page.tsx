@@ -7,6 +7,8 @@ import { BlocksAreaHeader } from '@/components/BlocksAreaHeader'
 import styles from './publicarBlocoStyles.module.scss'
 
 import states from '@/data/states.json'
+import { ref, uploadBytes, uploadBytesResumable } from '@firebase/storage';
+import { storage } from '@/firebase/config';
 
 interface PositionInterface {
     lat: number,
@@ -40,8 +42,14 @@ export default function PublicarBloco() {
 
     function handleSelectImage(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.files && event.target.files[0]) {
-            setSelectedImage(event.target.files[0])
-            setSelectedImagePreview(URL.createObjectURL(event.target.files[0]));
+
+            const file = event.target.files[0]
+            const storageRef = ref(storage,`/files/${file.name}`)
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+
+            setSelectedImage(file)
+            setSelectedImagePreview(URL.createObjectURL(file));
             event.target.value = '';
         }
     }
@@ -76,7 +84,7 @@ export default function PublicarBloco() {
 
         if (responseData.done == 'ok') {
             alert('🎉Bloco publicado com sucesso!!🎉')
-            window.location.replace('/blocos')
+            // window.location.replace('/blocos')
         } else {
             alert(`❌${responseData.error}❌`)
         }

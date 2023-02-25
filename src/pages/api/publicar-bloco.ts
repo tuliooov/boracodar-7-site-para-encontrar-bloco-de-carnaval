@@ -1,7 +1,13 @@
-import { NextApiHandler } from "next";
+import { v4 as uuidV4 } from 'uuid'
+import next, { NextApiHandler } from "next";
 import fs from "fs/promises";
 import { parseBody } from "@/utils/parseBody"
 import prismaClient from "@/lib/prisma"
+import { storage } from "@/firebase/config";
+import { ref, uploadBytes, uploadString } from "@firebase/storage";
+import { randomUUID } from "crypto";
+import formidable from 'formidable';
+import path from 'path';
 
 export const config = {
     api: {
@@ -21,6 +27,9 @@ interface CreateBlockFields {
 const handler: NextApiHandler = async (req, res) => {
 
     if (req.method === 'POST') {
+
+        
+
         const requestBody = await parseBody(req) as any;
 
         const allowedMimes = [
@@ -34,6 +43,24 @@ const handler: NextApiHandler = async (req, res) => {
                 await fs.unlink(requestBody.files.banner.filepath)
                 return res.status(501).json({ error: `Arquivo não autorizado.` })
             }
+
+
+            // const file = requestBody.files.banner
+            const file = require('../../../public/uploads/default.png')
+            const organizationId = 'bora-codar-7';
+            const path = `/${organizationId}/${file.newFilename}`;
+            const reference = ref(storage, path);
+        
+
+            uploadBytes(reference, file, {
+                cacheControl: 'max-age=31536000',
+                customMetadata: {
+                  organizationId,
+                },
+              }).then((snapshot) => {
+                console.log('Uploaded a blob or file!');
+            });
+
         }
 
         const {

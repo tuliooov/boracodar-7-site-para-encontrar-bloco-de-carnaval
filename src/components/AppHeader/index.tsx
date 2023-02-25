@@ -14,6 +14,7 @@ export function AppHeader() {
     const [blockState, setBlockState] = useState<string>('')
     const [name, setName] = useState<string>('')
     const [position, setPosition] = useState({lat: -15.7993786, lng: -47.8654648})
+    const [loading, setLoading] = useState(false)
 
     function handleSelectState(event: React.ChangeEvent<HTMLSelectElement>){
 
@@ -26,6 +27,10 @@ export function AppHeader() {
 
         setBlockState(`${state}-${uf}`)
         setPosition({lat:Number(lat), lng:Number(lng)})
+    }
+
+    const handleSearch = () => {
+        setLoading(true)
     }
 
     return (
@@ -93,9 +98,10 @@ export function AppHeader() {
                     </div>
 
                     <a 
-                        href={`${`${pathName}?estado=${blockState}&nome=${name}&lat=${position.lat}&lng=${position.lng}`}`} 
+                        onClick={handleSearch} 
                         id={styles.submitButton}
-                    >BUSCAR AGORA</a>
+                        href={`${`${pathName}?estado=${blockState}&nome=${name}&lat=${position.lat}&lng=${position.lng}`}`}
+                    >{loading ? '...' : 'BUSCAR AGORA'}</a>
                 </form>
             </div>
         </div>
