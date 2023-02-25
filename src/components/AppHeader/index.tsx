@@ -46,14 +46,10 @@ export function AppHeader() {
             <div id={styles.wrapper}>
 
 
-                <p id={styles.appName}>
-                    FIND YOUR BLOCK
-                </p>
-
                 <h1 id={styles.title}>
                     Encontre os <span>melhores blocos </span>
                     de carnaval de 2023
-                </h1>usePathname
+                </h1>
 
                 <form  
                     id={styles.searchContainer} 

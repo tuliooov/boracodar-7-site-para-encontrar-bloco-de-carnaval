@@ -22,7 +22,7 @@ export default function PublicarBloco() {
         ssr: false
     }); 
 
-    const descriptionTextArea = useRef(null)
+    const descriptionTextArea = useRef<HTMLTextAreaElement>(null)
 
     const [name, setName] = useState<string>('')
     const [blockState, setBlockState] = useState<string>('')
@@ -35,8 +35,7 @@ export default function PublicarBloco() {
 
     function updateDescriptionTextArea(event: any) {
         setDescription(event.target.value)
-        //@ts-ignore
-        descriptionTextArea.current.style.height = `${descriptionTextArea.current.scrollHeight}px`
+        if(descriptionTextArea.current) descriptionTextArea.current.style.height = `${descriptionTextArea.current.scrollHeight}px`
     }
 
     function handleSelectImage(event: React.ChangeEvent<HTMLInputElement>) {
