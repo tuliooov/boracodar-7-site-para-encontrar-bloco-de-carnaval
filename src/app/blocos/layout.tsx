@@ -1,4 +1,5 @@
 import { BlocksAreaHeader } from '@/components/BlocksAreaHeader'
+import { Suspense } from 'react'
 
 import styles from './blocksListStyles.module.scss'
 
@@ -17,7 +18,9 @@ export default function Layout({
                 buttonName="PUBLICAR BLOCO"
                 buttonLink="/publicar-bloco"
             />
-            {children}
+            <Suspense fallback={<p>Carregando...</p>}>
+                {children}
+            </Suspense>
         </div>
     )
 }
