@@ -1,73 +1,42 @@
-"use client"
-
+import prismaClient from '@/lib/prisma';
 import Image from 'next/image'
 import Link from 'next/link'
 
-// import prismaClient from '@/lib/prisma'
 
 import styles from './blocksListStyles.module.scss'
-import { useCallback, useEffect, useState } from 'react';
 
-// export const dynamic='force-dynamic';
+export const dynamic='force-dynamic';
 
-// async function getBlocks(searchParams: any) {
-//     return prismaClient.carnivalBlock.findMany({
-//         orderBy: {
-//             createdAt: 'asc'
-//         },
-//         where: searchParams.estado !== '' && searchParams.nome !== '' ? {
-//             state: searchParams.estado,
-//             name: {
-//                 contains: searchParams.nome
-//             }
-//         } : (
-//             searchParams.estado !== '' ? {
-//                 state: searchParams.estado
-//             } : (searchParams.nome !== '' ? {
-//                 name: {
-//                     contains: searchParams.nome
-//                 }
-//             } : {})
-//         )
-//     })
-// }
+export default async function BlocksList({ searchParams }: any) {
 
-async function fetchUser() {
-    const response = await fetch('/api/buscar-blocos', {
-        method: 'GET',
+    const blocks = await prismaClient.carnivalBlock.findMany({
+        orderBy: {
+            createdAt: 'asc'
+        },
+        where: searchParams.estado !== '' && searchParams.nome !== '' ? {
+            state: searchParams.estado,
+            name: {
+                contains: searchParams.nome
+            }
+        } : (
+            searchParams.estado !== '' ? {
+                state: searchParams.estado
+            } : (searchParams.nome !== '' ? {
+                name: {
+                    contains: searchParams.nome
+                }
+            } : {})
+        )
     })
-    return await response.json()
-}
-
-export default function BlocksList({ searchParams }: any) {
-
-    // const blocks = await getBlocks(searchParams)
-    // const user = await fetchUser()
-
-    // async function fetchUser() {
-    //     return (await fetch('/api/buscar-blocos', {
-    //         method: 'GET',
-    //     })).json()
-    // }
-
-    const [blocks, setBlocks] = useState<any>([]) 
-
-    const func = useCallback(async () => {
-        const response = await fetchUser()
-        setBlocks(response.result)
-    }, [])
-    
-    useEffect(() => {
-        func()
-    }, [func])
 
     return (
         <>
+
             <main>
                 {
                     blocks.length >= 1 ? (
 
-                        blocks.map((block: any) => {
+                        blocks.map((block) => {
                             return (
                                 <Link 
                                     key={block.id} 
