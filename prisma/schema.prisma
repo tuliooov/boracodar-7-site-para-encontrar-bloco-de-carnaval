@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model CarnivalBlock {
-  id          String   @id @unique @default(uuid())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   state       String
   imageName   String   @map("image_name")
