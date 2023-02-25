@@ -5,12 +5,8 @@ import prismaClient from '@/lib/prisma'
 
 import styles from './blocksListStyles.module.scss'
 
-export const dynamic='force-dynamic';
-
-export default async function BlocksList({ searchParams }: any) {
-
-
-    const blocks = await prismaClient.carnivalBlock.findMany({
+async function getBlocks(searchParams: any) {
+    return prismaClient.carnivalBlock.findMany({
         orderBy: {
             createdAt: 'asc'
         },
@@ -29,6 +25,11 @@ export default async function BlocksList({ searchParams }: any) {
             } : {})
         )
     })
+}
+
+export default async function BlocksList({ searchParams }: any) {
+
+    const blocks = await getBlocks(searchParams)
 
     return (
         <>
