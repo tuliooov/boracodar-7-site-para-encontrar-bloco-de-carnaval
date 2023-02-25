@@ -50,7 +50,7 @@ export default function BlocksList({ searchParams }: any) {
     //     })).json()
     // }
 
-    const [blocks, setBlocks] = useState([]) 
+    const [blocks, setBlocks] = useState<any>([]) 
 
     const func = useCallback(async () => {
         const response = await fetchUser()
@@ -67,7 +67,7 @@ export default function BlocksList({ searchParams }: any) {
                 {
                     blocks.length >= 1 ? (
 
-                        blocks.map((block) => {
+                        blocks.map((block: any) => {
                             return (
                                 <Link 
                                     key={block.id} 
