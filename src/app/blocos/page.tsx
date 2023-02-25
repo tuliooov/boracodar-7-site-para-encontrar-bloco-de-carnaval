@@ -29,6 +29,9 @@ export default async function BlocksList({ searchParams }: any) {
         )
     })
 
+    console.log(blocks);
+    
+
     return (
         <>
 
@@ -44,7 +47,7 @@ export default async function BlocksList({ searchParams }: any) {
                                     href={`/blocos/${block.id}`}
                                 >
                                     <img
-                                        src={`/uploads/${block.imageName}`}
+                                        src={`https://firebasestorage.googleapis.com/v0/b/search-of-carnival-7-boracodar.appspot.com/o/bora-codar-7%2F${block.imageName}?alt=media&token=409c594e-019a-484b-a19d-9588c310e730`}
                                         alt="O python do vovo não sobe mais"
                                         className={styles.blockBanner}
                                     />

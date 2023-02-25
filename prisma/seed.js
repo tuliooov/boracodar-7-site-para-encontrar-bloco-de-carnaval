@@ -9,7 +9,7 @@ async function main(){
             positionLat:"-22.19", 
             positionLng: "-48.79",
             description: "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
-            state: "São paulo-SP"
+            state: "São Paulo-SP"
         }
     })
     await prisma.carnivalBlock.create({

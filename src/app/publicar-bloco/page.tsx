@@ -1,13 +1,14 @@
 "use client"
 import { FormEvent, useState, useRef } from 'react'
 import dynamic from 'next/dynamic';
+import { v4 as uuidV4 } from 'uuid'
 
 import { BlocksAreaHeader } from '@/components/BlocksAreaHeader'
 
 import styles from './publicarBlocoStyles.module.scss'
 
 import states from '@/data/states.json'
-import { ref, uploadBytes, uploadBytesResumable } from '@firebase/storage';
+import { ref, uploadBytesResumable } from '@firebase/storage';
 import { storage } from '@/firebase/config';
 
 interface PositionInterface {
@@ -31,6 +32,7 @@ export default function PublicarBloco() {
     const [selectedImage, setSelectedImage] = useState<File | null>()
     const [position, setPosition] = useState<PositionInterface>({ lat: -15.7993786, lng: -47.8654648 })
     const [description, setDescription] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(false)
 
     const [mapCenterPosition, setMapCenterPosition] = useState<PositionInterface>({ lat: -15.7993786, lng: -47.8654648 })
     const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>()
@@ -42,12 +44,7 @@ export default function PublicarBloco() {
 
     function handleSelectImage(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.files && event.target.files[0]) {
-
             const file = event.target.files[0]
-            const storageRef = ref(storage,`/files/${file.name}`)
-            const uploadTask = uploadBytesResumable(storageRef, file);
-
-
             setSelectedImage(file)
             setSelectedImagePreview(URL.createObjectURL(file));
             event.target.value = '';
@@ -66,14 +63,23 @@ export default function PublicarBloco() {
 
     async function submitPublishBlock(event: FormEvent) {
         event.preventDefault();
+        
+        let nameFile = ''
+        if(selectedImage){
+            const type = selectedImage.name.slice(selectedImage.name.indexOf("."), selectedImage.name.length)
+            nameFile = `${uuidV4()}${type}`
+            const storageRef = ref(storage,`/bora-codar-7/${nameFile}`)
+            uploadBytesResumable(storageRef, selectedImage);
+        }
 
         const body = new FormData()
         body.append('name', name)
         body.append('state', blockState)
-        body.append('banner', selectedImage || '')
+        body.append('nameBanner', nameFile)
         body.append('positionLat', String(position.lat))
         body.append('positionLng', String(position.lng))
         body.append('description', description)
+        
 
         const response = await fetch('/api/publicar-bloco', {
             method: 'POST',
@@ -84,7 +90,7 @@ export default function PublicarBloco() {
 
         if (responseData.done == 'ok') {
             alert('🎉Bloco publicado com sucesso!!🎉')
-            // window.location.replace('/blocos')
+            window.location.replace('/blocos')
         } else {
             alert(`❌${responseData.error}❌`)
         }
@@ -177,7 +183,7 @@ export default function PublicarBloco() {
                     </Map>
                 </div>
                 <button id={styles.submitBlockButton}>
-                    PUBLICAR
+                    {loading ? `...` : "PUBLICAR"}
                 </button>
             </form>
         </div>

@@ -1,32 +1,42 @@
 "use client"
 
 import { useState } from 'react'
-import {usePathname} from 'next/navigation'
+import {usePathname, useSearchParams} from 'next/navigation'
 
 import styles from './headerStyles.module.scss'
 
 import states from '@/data/states.json'
 
 export function AppHeader() {
-
+    
+    // console.log(searchParams);
+    
     const pathName = usePathname()
+    const searchParams = useSearchParams()
 
-    const [blockState, setBlockState] = useState<string>('')
-    const [name, setName] = useState<string>('')
+    console.log();
+    
+
+    const [blockState, setBlockState] = useState<string>(searchParams?.get("estado") ?? '')
+    const [name, setName] = useState<string>(searchParams?.get("nome") ?? '')
     const [position, setPosition] = useState({lat: -15.7993786, lng: -47.8654648})
     const [loading, setLoading] = useState(false)
 
     function handleSelectState(event: React.ChangeEvent<HTMLSelectElement>){
-
         if(!event.target.value){
             setBlockState('')
             setPosition({lat: -15.7993786, lng: -47.8654648})
             return 
         }
-        const [lat, lng, state, uf] = event.target.value.split('/')
+        const [state, uf] = event.target.value.split('-')
 
-        setBlockState(`${state}-${uf}`)
-        setPosition({lat:Number(lat), lng:Number(lng)})
+        const stateFound = states.find((state) => state.uf === uf)
+
+        if(stateFound){
+            const {latitude, longitude} = stateFound
+            setBlockState(`${state}-${uf}`)
+            setPosition({lat:Number(latitude), lng:Number(longitude)})
+        }
     }
 
     const handleSearch = () => {
@@ -68,6 +78,7 @@ export function AppHeader() {
                         />
                         <input
                             onChange={(event) => setName(event.target.value)}
+                            value={name}
                             type="text"
                             placeholder="Pesquise por nome"
                         />
@@ -80,13 +91,14 @@ export function AppHeader() {
                         />
                         <select
                             onChange={handleSelectState}
+                            value={blockState}
                         >
                             <option value="">Selecione uma cidade</option>
                             {
                                 states.map((state) => {
                                     return (
                                         <option
-                                            value={`${state.latitude}/${state.longitude}/${state.name}/${state.uf}`}
+                                            value={`${state.name}-${state.uf}`}
                                             key={state.name}
                                         >
                                             {`${state.name}-${state.uf}`}
@@ -100,7 +112,7 @@ export function AppHeader() {
                     <a 
                         onClick={handleSearch} 
                         id={styles.submitButton}
-                        href={`${`${pathName}?estado=${blockState}&nome=${name}&lat=${position.lat}&lng=${position.lng}`}`}
+                        href={`${`/blocos?estado=${blockState}&nome=${name}&lat=${position.lat}&lng=${position.lng}`}`}
                     >{loading ? '...' : 'BUSCAR AGORA'}</a>
                 </form>
             </div>

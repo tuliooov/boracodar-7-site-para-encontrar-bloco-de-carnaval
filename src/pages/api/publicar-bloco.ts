@@ -18,6 +18,7 @@ export const config = {
 interface CreateBlockFields {
     name?: string
     state?: string,
+    nameBanner?: string,
     positionLng: string,
     positionLat: string,
     description: string
@@ -32,51 +33,18 @@ const handler: NextApiHandler = async (req, res) => {
 
         const requestBody = await parseBody(req) as any;
 
-        const allowedMimes = [
-            "image/jpeg",
-            "image/pjpeg",
-            "image/png",
-            "image/jpg"
-        ];
-        if(requestBody.files.banner){
-            if (!allowedMimes.includes(requestBody.files.banner.mimetype)) {
-                await fs.unlink(requestBody.files.banner.filepath)
-                return res.status(501).json({ error: `Arquivo não autorizado.` })
-            }
-
-
-            // const file = requestBody.files.banner
-            const file = require('../../../public/uploads/default.png')
-            const organizationId = 'bora-codar-7';
-            const path = `/${organizationId}/${file.newFilename}`;
-            const reference = ref(storage, path);
-        
-
-            uploadBytes(reference, file, {
-                cacheControl: 'max-age=31536000',
-                customMetadata: {
-                  organizationId,
-                },
-              }).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
-
-        }
-
         const {
             state,
             name,
             positionLat,
             positionLng,
-            description
+            description,
+            nameBanner
         } = requestBody.fields as CreateBlockFields
 
         if (
             !state || !name || !positionLat || !positionLng
         ) {
-            if(requestBody.files.banner){
-                await fs.unlink(requestBody.files.banner?.filepath)
-            }
             return res.status(200).json({ error: `Formulário incompleto.` })
         }
 
@@ -87,7 +55,7 @@ const handler: NextApiHandler = async (req, res) => {
                 positionLat,
                 positionLng,
                 description,
-                imageName: requestBody.files.banner?.newFilename || 'default.png',
+                imageName: nameBanner || 'default.png',
             }
         })
 
