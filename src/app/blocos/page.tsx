@@ -9,26 +9,30 @@ export const dynamic='force-dynamic';
 
 export default async function BlocksList({ searchParams }: any) {
 
-    const blocks = await prismaClient.carnivalBlock.findMany({
-        orderBy: {
-            createdAt: 'asc'
-        },
-        where: searchParams.estado !== '' && searchParams.nome !== '' ? {
-            state: searchParams.estado,
-            name: {
-                contains: searchParams.nome
-            }
-        } : (
-            searchParams.estado !== '' ? {
-                state: searchParams.estado
-            } : (searchParams.nome !== '' ? {
-                name: {
-                    contains: searchParams.nome
-                }
-            } : {})
-        )
-    })
+    // const blocks = await prismaClient.carnivalBlock.findMany({
+    //     orderBy: {
+    //         createdAt: 'asc'
+    //     },
+    //     where: searchParams.estado !== '' && searchParams.nome !== '' ? {
+    //         state: searchParams.estado,
+    //         name: {
+    //             contains: searchParams.nome
+    //         }
+    //     } : (
+    //         searchParams.estado !== '' ? {
+    //             state: searchParams.estado
+    //         } : (searchParams.nome !== '' ? {
+    //             name: {
+    //                 contains: searchParams.nome
+    //             }
+    //         } : {})
+    //     )
+    // })
 
+    return (
+        <h1>test</h1>
+    )
+    
     return (
         <>
 
